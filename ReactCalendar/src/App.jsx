@@ -64,17 +64,6 @@ function App() {
       <NavBar />
 
       <div className="Contenedor">
-        <nav className="links">
-          <a href="#">
-            <AiFillHome className="icono" />
-          </a>
-          <a href="#">
-            <MdEditCalendar className="icono"/> 
-          </a>
-          <a href="#">
-            <BsCalendar2X className="icono"/> 
-          </a>
-        </nav>
 
         <Calendar
           className="Calendar"

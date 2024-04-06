@@ -3,42 +3,29 @@ body {
   background-color: #20212c;
 }
 .Contenedor {
-  display: grid;
-  grid-template-columns: 0.5fr 1fr;
+  
   margin-top: 2rem;
  
 }
 .Calendar {
-  width: 90vw;
+  width: 95vw;
   height: 80vh;
+  margin-left: 3rem;
+}
+@media (max-width: 768px) {
+  .Calendar {
+    width: 95vw !important;
+    height: 85vh !important;
+    margin-left: 0rem;
+  }
 }
 
-.links {
-  display: flex;
-  justify-content: space-between;
-  
-  font-size: 2rem;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  
-}
-.links a {
-  text-decoration: none;
-  color: white;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  transition: 0.3s;
-  margin: 0rem 1rem 0rem 0rem;
-}
 
 .rbc-time-view {
-  background-color: white;
+  background-color: aliceblue;
 }
 
-.icono {
-  font-size: 2.5rem;
-}
+
 
 @media (max-width: 768px) {
   .Contenedor {

@@ -1,7 +1,11 @@
-
+import dayjs from "dayjs";
 import { useState } from 'react';
 import Modal from 'react-modal';
 import './CalendarModal.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+
 //import Select from '../SelectHour/SelectHour'
 
 const customStyles = {
@@ -27,6 +31,21 @@ const customStyles = {
 
     const [isOpen, setIsOpen] = useState(true);
 
+    const [ formValues, setFormValues ] = useState({
+        title: '',
+        lugar: '',
+        start: dayjs().format(), // Fecha y hora actual en formato ISO 8601
+        end: dayjs().format(), // Fecha y hora actual en formato ISO 8601
+    });
+
+    const handleInputChange = ({ target }) => {
+        setFormValues({
+            ...formValues,
+            [target.name]: target.value
+        });
+    }
+
+
   return (
     <Modal 
         isOpen = {isOpen}
@@ -43,23 +62,33 @@ const customStyles = {
 
     <div className="form-group mb-2">
         <label>Añadir Titulo</label>
-        <input className="form-control" placeholder="Titulo" />
+        <input 
+        className="form-control" 
+        placeholder="Titulo" 
+        name="title"
+        value={ formValues.title}
+        onChange={handleInputChange}
+        />
     </div>
 
     <div className="form-group mb-2">
         <label>Hora inicial</label>
-        <input className="form-control" placeholder="Hora Inicial" />
+        <DatePicker
+            className="form-control"
+            selected={formValues.start && dayjs(formValues.start).isValid() ? dayjs(formValues.start).toDate() : new Date()}
+            onChange={date => setFormValues({ ...formValues, start: dayjs(date).format() })}
+            dateFormat="MM/dd/yyyy h:mm aa"
+        />
     </div>
 
     <hr />
     <div className="form-group mb-2">
         <label>Hora final</label>
-        <input 
-            type="text" 
+        <DatePicker
             className="form-control"
-            placeholder="Hotal Final"
-            name="title"
-            autoComplete="off"
+            selected={formValues.start && dayjs(formValues.start).isValid() ? dayjs(formValues.start).toDate() : new Date()}
+            onChange={date => setFormValues({ ...formValues, start: dayjs(date).format() })}
+            dateFormat="MM/dd/yyyy h:mm aa"
         />
        
     </div>
@@ -70,8 +99,10 @@ const customStyles = {
             type="text" 
             className="form-control"
             placeholder=" Lugar"
-            name="title"
+            name="lugar"
             autoComplete="off"
+            value={ formValues.lugar }
+            onChange={ handleInputChange }
         />
        
     </div>
