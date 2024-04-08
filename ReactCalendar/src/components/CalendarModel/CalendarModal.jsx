@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-//import Select from '../SelectHour/SelectHour'
+
 
 const customStyles = {
     content: {
@@ -45,6 +45,12 @@ const customStyles = {
         });
     }
 
+    const onDateChange = (event, changing) => {
+        setFormValues({
+            ...formValues,
+            [changing]: event
+        });
+    }
 
   return (
     <Modal 
@@ -76,8 +82,15 @@ const customStyles = {
         <DatePicker
             className="form-control"
             selected={formValues.start && dayjs(formValues.start).isValid() ? dayjs(formValues.start).toDate() : new Date()}
-            onChange={date => setFormValues({ ...formValues, start: dayjs(date).format() })}
+            onChange={ (event) => onDateChange(event, 'start')}
+            showTimeSelect
+            timeIntervals={15}
+            timeCaption="Time"
             dateFormat="MM/dd/yyyy h:mm aa"
+            minDate={dayjs('2024-03-24').startOf('week').toDate()}
+            maxDate={dayjs('2024-03-24').endOf('week').toDate()}
+            openToDate={dayjs('2024-03-24').toDate()}
+            
         />
     </div>
 
@@ -86,9 +99,16 @@ const customStyles = {
         <label>Hora final</label>
         <DatePicker
             className="form-control"
-            selected={formValues.start && dayjs(formValues.start).isValid() ? dayjs(formValues.start).toDate() : new Date()}
-            onChange={date => setFormValues({ ...formValues, start: dayjs(date).format() })}
+            selected={formValues.end && dayjs(formValues.end).isValid() ? dayjs(formValues.end).toDate() : new Date()}
+            onChange={ (event) => onDateChange(event, 'end')}
+            showTimeSelect
+            timeIntervals={15}
+            timeCaption="Time"
             dateFormat="MM/dd/yyyy h:mm aa"
+            minDate={dayjs('2024-03-24').startOf('week').toDate()}
+            maxDate={dayjs('2024-03-24').endOf('week').toDate()}
+            openToDate={dayjs('2024-03-24').toDate()}
+            
         />
        
     </div>
