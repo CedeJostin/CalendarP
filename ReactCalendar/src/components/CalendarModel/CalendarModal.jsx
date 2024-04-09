@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import './CalendarModal.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+//import Float from '../FloatinButton/FloatingButton';
 
 
 
@@ -22,14 +23,11 @@ const customStyles = {
 
   Modal.setAppElement('#root');
 
- const CalendarModal = () => {
+ const CalendarModal = ({ open, handleOpen, handleClose }) => {
 
-    const closeModal = () => {
-        console.log('cerrando modal');
-        setIsOpen(false);
-    }
+   
 
-    const [isOpen, setIsOpen] = useState(true);
+   
 
     const [ formValues, setFormValues ] = useState({
         title: '',
@@ -52,13 +50,16 @@ const customStyles = {
         });
     }
 
+    
+
   return (
     <Modal 
-        isOpen = {isOpen}
-        onRequestClose={closeModal}
+        isOpen = {open}
+       onRequestClose={handleClose}
         style={ customStyles }
         className="modal"
         overlayClassName='modal-fondo'
+        
     >
 
 
@@ -87,9 +88,7 @@ const customStyles = {
             timeIntervals={15}
             timeCaption="Time"
             dateFormat="MM/dd/yyyy h:mm aa"
-            minDate={dayjs('2024-03-24').startOf('week').toDate()}
-            maxDate={dayjs('2024-03-24').endOf('week').toDate()}
-            openToDate={dayjs('2024-03-24').toDate()}
+          
             
         />
     </div>
@@ -105,9 +104,7 @@ const customStyles = {
             timeIntervals={15}
             timeCaption="Time"
             dateFormat="MM/dd/yyyy h:mm aa"
-            minDate={dayjs('2024-03-24').startOf('week').toDate()}
-            maxDate={dayjs('2024-03-24').endOf('week').toDate()}
-            openToDate={dayjs('2024-03-24').toDate()}
+       
             
         />
        
