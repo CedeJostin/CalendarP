@@ -42,7 +42,13 @@
     padding: 25px;
     display: flex;
     flex-direction: column;
+    
    
+}
+@media (max-width: 768px) {
+    .modal {
+        width: 250px;
+    }
 }
 .modal h1 {
     font-size: 35px;

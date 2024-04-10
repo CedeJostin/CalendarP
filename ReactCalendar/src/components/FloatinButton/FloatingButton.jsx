@@ -66,11 +66,11 @@ export default function FloatingActionButtons() {
         </Fab>
         <Fab onClick={openModal} color="secondary" aria-label="edit">
             <AddIcon/>
-            <CalendarModal open={modalOpen} handleOpen={openModal} handleClose={closeModal} />
         </Fab>
        
         
       </Popover>
+      <CalendarModal open={modalOpen} handleOpen={openModal} handleClose={closeModal} />
     </Box>
   );
 }

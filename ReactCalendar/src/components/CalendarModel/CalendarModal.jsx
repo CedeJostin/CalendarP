@@ -88,7 +88,9 @@ const customStyles = {
             timeIntervals={15}
             timeCaption="Time"
             dateFormat="MM/dd/yyyy h:mm aa"
-          
+            minDate={dayjs('2024-03-24').startOf('week').toDate()}
+            maxDate={dayjs('2024-03-24').endOf('week').toDate()}
+            openToDate={dayjs('2024-03-24').toDate()}
             
         />
     </div>
@@ -104,7 +106,9 @@ const customStyles = {
             timeIntervals={15}
             timeCaption="Time"
             dateFormat="MM/dd/yyyy h:mm aa"
-       
+            minDate={dayjs('2024-03-24').startOf('week').toDate()}
+            maxDate={dayjs('2024-03-24').endOf('week').toDate()}
+            openToDate={dayjs('2024-03-24').toDate()}
             
         />
        
