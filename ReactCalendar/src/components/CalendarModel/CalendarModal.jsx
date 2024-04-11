@@ -1,10 +1,13 @@
 import dayjs from "dayjs";
-import { useState } from 'react';
+import { useMemo, useState, } from 'react';
 import Modal from 'react-modal';
 import './CalendarModal.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-//import Float from '../FloatinButton/FloatingButton';
+import axios from 'axios';
+import { differenceInSeconds } from 'date-fns';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css'
 
 
 
@@ -25,16 +28,41 @@ const customStyles = {
 
  const CalendarModal = ({ open, handleOpen, handleClose }) => {
 
-   
 
-   
 
+    const [ dayOfWeek, setDayOfWeek ] = useState('');     
+    const [ formSubmit, setFormSubmit ] = useState(false);
     const [ formValues, setFormValues ] = useState({
         title: '',
         lugar: '',
         start: dayjs().format(), // Fecha y hora actual en formato ISO 8601
         end: dayjs().format(), // Fecha y hora actual en formato ISO 8601
     });
+
+   
+        
+
+    const onDateChange = (date, type) => {
+        // Actualiza la fecha en el estado
+        setFormValues({
+          ...formValues,
+          [type]: date,
+        });
+       
+
+        // Obtén el día de la semana
+        let dayOfWeek = dayjs(date).day();
+      
+        // Conviértelo a un string para que sea más legible
+        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        dayOfWeek = days[dayOfWeek];
+      
+        // Guarda el día de la semana en el estado
+        setDayOfWeek(dayOfWeek);
+      };
+
+
+
 
     const handleInputChange = ({ target }) => {
         setFormValues({
@@ -43,12 +71,49 @@ const customStyles = {
         });
     }
 
-    const onDateChange = (event, changing) => {
-        setFormValues({
-            ...formValues,
-            [changing]: event
-        });
-    }
+              
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+        
+        // Obtén los valores del formulario del estado
+        const { title, start, end, lugar } = formValues;
+      
+        // Obtén el día de la semana del estado
+        let dayOfWeekState = dayOfWeek; // Asegúrate de que estás guardando el día de la semana en el estado con este nombre
+      
+        const difference = differenceInSeconds( formValues.end, formValues.start);
+
+        if( isNaN(difference) || difference > 0){
+            Swal.fire('Error', 'La fecha de inicio debe ser menor a la fecha final', 'error');
+            
+            return;
+        }
+        if ( formValues.title.length <= 0){
+            Swal.fire('Error', 'El titulo es obligatorio', 'error');
+            return;
+        }
+        if ( formValues.lugar.length <= 0){
+            Swal.fire('Error', 'El lugar es obligatorio', 'error');
+            return;
+        }
+
+
+        console.log(formValues.start , formValues.end, );
+        console.log(dayOfWeekState);
+        // axios.post('https://tu-backend.com/api/ruta', {
+        //   title,
+        //   start,
+        //   end,
+        //   dayOfWeekState,
+        // })
+        // .then(response => {
+        //   console.log(response.data);
+        // })
+        // .catch(error => {
+        //   console.error(error);
+        // });
+      };
 
     
 
@@ -65,12 +130,12 @@ const customStyles = {
 
 <h1> Nuevo evento </h1>
 <hr />
-<form className="container">
+<form className="container" onSubmit={onSubmit}>
 
     <div className="form-group mb-2">
         <label>Añadir Titulo</label>
         <input 
-        className="form-control" 
+        className={ 'form-control' }
         placeholder="Titulo" 
         name="title"
         value={ formValues.title}
@@ -86,11 +151,8 @@ const customStyles = {
             onChange={ (event) => onDateChange(event, 'start')}
             showTimeSelect
             timeIntervals={15}
-            timeCaption="Time"
-            dateFormat="MM/dd/yyyy h:mm aa"
-            minDate={dayjs('2024-03-24').startOf('week').toDate()}
-            maxDate={dayjs('2024-03-24').endOf('week').toDate()}
-            openToDate={dayjs('2024-03-24').toDate()}
+            dateFormat="Pp"
+            
             
         />
     </div>
@@ -99,16 +161,13 @@ const customStyles = {
     <div className="form-group mb-2">
         <label>Hora final</label>
         <DatePicker
-            className="form-control"
+            className="form-control ti"
             selected={formValues.end && dayjs(formValues.end).isValid() ? dayjs(formValues.end).toDate() : new Date()}
             onChange={ (event) => onDateChange(event, 'end')}
             showTimeSelect
             timeIntervals={15}
-            timeCaption="Time"
-            dateFormat="MM/dd/yyyy h:mm aa"
-            minDate={dayjs('2024-03-24').startOf('week').toDate()}
-            maxDate={dayjs('2024-03-24').endOf('week').toDate()}
-            openToDate={dayjs('2024-03-24').toDate()}
+            dateFormat="Pp"
+            minDate={ formValues.start }
             
         />
        
@@ -118,7 +177,7 @@ const customStyles = {
         <label>Lugar</label>
         <input 
             type="text" 
-            className="form-control"
+            className="form-control is-invalid"
             placeholder=" Lugar"
             name="lugar"
             autoComplete="off"
