@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
-import { useMemo, useState, } from 'react';
+import { useState, } from 'react';
 import Modal from 'react-modal';
-import './CalendarModal.css';
+import '../ModalEdit/CalendarEdit.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
@@ -78,20 +78,24 @@ const customStyles = {
         
         // Obtén los valores del formulario del estado
         const { title, start, end, lugar } = formValues;
-       
+      
       
         // Extrae la hora de inicio y finalización
+        let startHour = dayjs(start).format('HH:mm'); // Obtén la hora de inicio
+        console.log("🚀 ~ onSubmit ~ startHour:", startHour)
+        let endHour = dayjs(end).format('HH:mm'); // Obtén la hora de finalización
+        console.log("🚀 ~ onSubmit ~ endHour:", endHour)
 
-            let startHour = dayjs(start).format('HH:mm'); // Obtén la hora de inicio
-            let endHour = dayjs(end).format('HH:mm'); // Obtén la hora de finalización
 
+        
         // Obtén el día de la semana del estado
         let dayOfWeekState = dayOfWeek; // Asegúrate de que estás guardando el día de la semana en el estado con este nombre
+        console.log("🚀 ~ onSubmit ~ dayOfWeekState:", dayOfWeekState)
       
         const difference = differenceInSeconds( formValues.end, formValues.start);
 
-        if( isNaN(difference) || difference <= 0){
-            Swal.fire('Error', 'La fecha de final debe ser menor a la inicial', 'error');
+        if( isNaN(difference) || difference > 0){
+            Swal.fire('Error', 'La fecha de inicio debe ser menor a la fecha final', 'error');
             
             return;
         }
@@ -104,12 +108,9 @@ const customStyles = {
             return;
         }
         console.log(dayOfWeekState);
-        console.log(startHour);
-        console.log(endHour);
         console.log("🚀 ~ onSubmit ~ lugar:", lugar)
         console.log("🚀 ~ onSubmit ~ title:", title)
-        
-        // axios.post('https://tu-backend.com/api/ruta', {
+        // axios.put('https://tu-backend.com/api/ruta', {
         //   title,
         //   start: startHour,
         //   end: endHour,
@@ -137,7 +138,7 @@ const customStyles = {
     >
 
 
-<h1> Nuevo evento </h1>
+<h1> Editar Evento </h1>
 <hr />
 <form className="container" >
 
@@ -201,7 +202,7 @@ const customStyles = {
         onClick={ onSubmit }
     >
         <i className="far fa-save"></i>
-        <span> Guardar</span>
+        <span>Guardar</span>
     </button>
 
 </form>
@@ -210,4 +211,3 @@ const customStyles = {
 }
  
 export default CalendarModal;
-

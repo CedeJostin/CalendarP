@@ -1,5 +1,5 @@
 import React, { useState, useEffecT } from 'react';
-import { horarios } from '../../../../Mock/Mock';
+import { mockData } from '../../../../Mock/Mock';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -7,6 +7,7 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import './NavBar.css';
+import axios from 'axios';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -52,22 +53,29 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
- function SearchAppBar() {
-
-  const [searchId, setSearchId] = useState("");
+function SearchAppBar({ onSearchIdChange }) {
+  const [searchId, setSearchId] = useState('');
 
   const handleSearchChange = (event) => {
+    console.log("Search Input Changed: ", event.target.value); // Debugging input changes
     setSearchId(event.target.value);
-  }
-
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    // Aquí es donde implementarías la lógica para buscar el ID.
-    // Por ejemplo, podrías hacer una solicitud a una API o buscar en un array.
-    const id = horarios;
-
-    console.log(`Buscando el ID: ${searchId}`);
+    onSearchIdChange(event.target.value);
   };
+
+  // const [usuario, setUsuario] = useState([]);
+  // const [tablaUsuario, setTablaUsuario] = useState([]);
+  // const [search , setSearch] = useState('');
+  
+
+  // const peticionGet = async () => {
+  //   await axios.get('https://tu-api.com/usuarios')
+  //   .then(response => {
+  //     setUsuario(response.data);
+  //     setTablaUsuario(response.data);
+  //   }).catch(error => {
+  //     console.log(error);
+  //   });
+  // }
  
  
 
@@ -84,8 +92,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
-              value={searchId}
-              onChange={handleSearchChange}
+               value={searchId}
+               onChange={handleSearchChange}
             />
           </Search>
         </Toolbar>

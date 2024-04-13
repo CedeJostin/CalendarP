@@ -9,6 +9,8 @@ import { BsCalendar2X } from "react-icons/bs";
 import { useState } from 'react';
 import { FaEllipsisH } from "react-icons/fa";
 import CalendarModal from '../CalendarModel/CalendarModal';
+import ModalEdit from '../ModalEdit/ModalEdit';
+
 
 export default function FloatingActionButtons() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -41,36 +43,38 @@ export default function FloatingActionButtons() {
       right: 80,
       '& > :not(style)': { m: 1 } 
     }}>
-      <Fab color="primary" aria-label="add" onClick={handleClick} style={{ display: open ? 'none' : 'inline-flex' }}>
+      <Fab color="primary" aria-label="add" onClick={handleClick}>
         <FaEllipsisH /> 
       </Fab>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-      >
-        <Fab onClick={handleClose} color="secondary" aria-label="edit" >
-          <EditIcon />
-        </Fab>
-        <Fab onClick={handleClose} color="secondary" aria-label="Cancel" >
-          <BsCalendar2X/>
-        </Fab>
-        <Fab onClick={openModal} color="secondary" aria-label="edit">
-            <AddIcon/>
-        </Fab>
-       
-        
-      </Popover>
+      {open && (
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+        >
+          <Fab onClick={closeModal} color="secondary" aria-label="edit" >
+            <EditIcon />
+          </Fab>
+          <Fab onClick={closeModal} color="secondary" aria-label="Cancel" >
+            <BsCalendar2X/>
+          </Fab>
+          <Fab onClick={openModal} color="secondary" aria-label="edit">
+              <AddIcon/>
+          </Fab>
+        </Popover>
+      )}
+
       <CalendarModal open={modalOpen} handleOpen={openModal} handleClose={closeModal} />
+      
     </Box>
   );
 }
